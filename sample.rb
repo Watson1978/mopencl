@@ -1,8 +1,8 @@
 #/usr/local/bin/macruby
 # http://blog.0x82.com/2010/1/23/opencl-in-macruby-hack-not-very-useful
-require "OpenCL"
+require "OpenCLBase"
 
-OpenCL.devices.each do |device|
+OpenCLBase.devices.each do |device|
   info = device.info
   puts "Trying on #{info[:name]} #{info[:vendor]} #{info[:version]} [#{info[:type]}]"
  

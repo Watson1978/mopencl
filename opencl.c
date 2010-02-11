@@ -515,11 +515,49 @@ rb_opencl_devices(VALUE klass, SEL sel)
   return res;
 }
 
-void
-Init_OpenCL(void)
+static VALUE
+rb_opencl_get_device_gpu(VALUE klass, SEL sel)
 {
-  mOpenCL = rb_define_module("OpenCL");
+	int err;
+	cl_uint number_of_devices;
+	cl_device_id device_id;
+    VALUE dev;
+
+	err = clGetDeviceIDs(NULL, CL_DEVICE_TYPE_GPU, 1, &device_id, &number_of_devices);
+	if((err != CL_SUCCESS) || (number_of_devices == 0)) {
+		return Qnil;
+	}
+
+	dev = rb_device_alloc(cDevice, 0);
+    rb_device_init(dev, 0, (VALUE)device_id);
+	return dev;
+}
+
+static VALUE
+rb_opencl_get_device_cpu(VALUE klass, SEL sel)
+{
+	int err;
+	cl_uint number_of_devices;
+	cl_device_id device_id;
+    VALUE dev;
+
+	err = clGetDeviceIDs(NULL, CL_DEVICE_TYPE_CPU, 1, &device_id, &number_of_devices);
+	if((err != CL_SUCCESS) || (number_of_devices == 0)) {
+		return Qnil;
+	}
+
+	dev = rb_device_alloc(cDevice, 0);
+    rb_device_init(dev, 0, (VALUE)device_id);
+	return dev;
+}
+
+void
+Init_OpenCLBase(void)
+{
+  mOpenCL = rb_define_module("OpenCLBase");
   rb_objc_define_module_function(mOpenCL, "devices", rb_opencl_devices, 0);
+  rb_objc_define_module_function(mOpenCL, "get_gpu", rb_opencl_get_device_gpu, 0);
+  rb_objc_define_module_function(mOpenCL, "get_cpu", rb_opencl_get_device_cpu, 0);
 
   cDevice = rb_define_class_under(mOpenCL, "Device", rb_cObject);
   rb_objc_define_method(*(VALUE*)cDevice, "alloc", rb_device_alloc, 0);
