@@ -1,4 +1,5 @@
-#/usr/local/bin/macruby
+#!/usr/local/bin/macruby
+# -*- coding: utf-8 -*-
 # http://blog.0x82.com/2010/1/23/opencl-in-macruby-hack-not-very-useful
 require "OpenCLBase"
 

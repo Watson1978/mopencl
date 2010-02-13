@@ -1,5 +1,5 @@
+#!/usr/local/bin/macruby
 # -*- coding: utf-8 -*-
-#/usr/local/bin/macruby
 require "opencl"
 require "benchmark"
 
