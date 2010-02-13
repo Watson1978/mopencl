@@ -31,12 +31,16 @@ class OpenCL
     return @cpu
   end
 
-  def program(prog)
+  def program(source)
+    @source = source
+    if(@source =~ /([^\(]+)\(/)
+      @source = $1
+    end
     @device = self.get_device()
 
     @context = @device.create_context()
     @queue   = @context.create_command_queue()
-    @program = @context.create_program(prog)
+    @program = @context.create_program(source)
     return @program
   end
 
@@ -53,17 +57,22 @@ class OpenCL
 
   def method_missing(method_name, *args)
     method = method_name.to_s
-    @kernel = @program.create_kernel(method);
-    args.each_with_index do |arg, index|
-      case arg
-      when OutputBuffer
+
+    if(@source =~ /#{method}/m)
+      @kernel = @program.create_kernel(method);
+      args.each_with_index do |arg, index|
+        case arg
+        when OutputBuffer
           arg = arg.output
+        end
+
+        @kernel.set_arg(index, arg)
       end
 
-      @kernel.set_arg(index, arg)
+      @kernel.enqueue_nd_range(@device, @queue, @output_size)
+    else
+      raise NameError.new("Undefined method : #{method}")
     end
-
-    @kernel.enqueue_nd_range(@device, @queue, @output_size)
   end
 
 end
