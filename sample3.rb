@@ -14,7 +14,7 @@ opencl.program <<EOF
   }
 EOF
 
-DATA_SIZE = 3333333
+DATA_SIZE = 10000000
 
 data = (1..DATA_SIZE).to_a
 
