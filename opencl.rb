@@ -2,10 +2,12 @@
 require "OpenCLBase"
 
 class OpenCL
-#   def initialize()
-#     @cpu = OpenCLBase.get_cpu
-#     @gpu = OpenCLBase.get_gpu
-#   end
+  # When true is set in use_cpu, the program is executed on CPU.
+  attr_accessor :use_cpu
+
+  def initialize()
+    self.use_cpu = false
+  end
 
   def info()
     info = []
@@ -23,7 +25,7 @@ class OpenCL
 
   def get_device()
     @gpu ||= OpenCLBase.get_gpu
-    return @gpu if(self.able_gpu?())
+    return @gpu if(!self.use_cpu and self.able_gpu?())
 
     @cpu ||= OpenCLBase.get_cpu
     return @cpu
@@ -45,22 +47,37 @@ class OpenCL
   end
 
   def set_output(size)
-    @output = @context.create_write_buffer(size)
     @output_size = size
-    return @output
+    return OutputBuffer.new(@context, @queue, size)
   end
 
   def method_missing(method_name, *args)
     method = method_name.to_s
     @kernel = @program.create_kernel(method);
     args.each_with_index do |arg, index|
+      case arg
+      when OutputBuffer
+          arg = arg.output
+      end
+
       @kernel.set_arg(index, arg)
     end
 
     @kernel.enqueue_nd_range(@device, @queue, @output_size)
-
-    @result = @output.read(@queue)
-    return @result
   end
 
+end
+
+class OutputBuffer
+  attr_accessor :output
+
+  def initialize(context, queue, size)
+    @queue = queue
+    self.output = context.create_write_buffer(size)
+    return self
+  end
+
+  def result()
+    return @output.read(@queue)
+  end
 end
