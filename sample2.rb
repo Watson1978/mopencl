@@ -23,6 +23,6 @@ input  = opencl.set_input((1..32768).to_a, 32768)
 output = opencl.set_output(32768)
 
 opencl.square(input, output, 32768)
-p output.result.last
+puts output.result.last
 
 
