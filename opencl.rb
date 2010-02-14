@@ -45,13 +45,16 @@ class OpenCL
   end
 
   def set_input(val, size)
+    @work_size ||= size
+    @work_size = size if(@work_size < size)
     @input = @context.create_read_buffer(size)
     @input.write(@queue, val)
     return @input
   end
 
   def set_output(size)
-    @output_size = size
+    @work_size ||= size
+    @work_size = size if(@work_size < size)
     return OutputBuffer.new(@context, @queue, size)
   end
 
@@ -69,7 +72,7 @@ class OpenCL
         @kernel.set_arg(index, arg)
       end
 
-      @kernel.enqueue_nd_range(@device, @queue, @output_size)
+      @kernel.enqueue_nd_range(@device, @queue, @work_size)
     else
       raise NameError.new("Undefined method : #{method}")
     end
