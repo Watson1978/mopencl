@@ -33,9 +33,6 @@ class OpenCL
 
   def program(source)
     @source = source
-    if(@source =~ /([^\(]+)\(/m)
-      @source = $1
-    end
     @device = self.get_device()
 
     @context = @device.create_context()
