@@ -1,5 +1,6 @@
 #!/usr/local/bin/macruby
 # -*- coding: utf-8 -*-
+require "rubygems"
 require "opencl"
 require "benchmark"
 
