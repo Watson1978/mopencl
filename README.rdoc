@@ -1,12 +1,12 @@
+= About
 This is a OpenCL library for MacRuby.
 This library is made based on the following. 
- - http://github.com/rubenfonseca/macruby/blob/master/opencl.c
+- http://github.com/rubenfonseca/macruby/blob/master/opencl.c
 
-
-* Install 
+= Install 
 It is necessary to install MacRuby first. 
 Please download MacRuby from the following sites, and install it. 
- - http://www.macruby.org/
+- http://www.macruby.org/
 
 Next, Please execute the following commands and the library is installed.
   $ git clone git://github.com/Watson1978/opencl.git
