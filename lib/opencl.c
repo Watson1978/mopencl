@@ -10,6 +10,10 @@
 #include <sys/stat.h>
 #include <OpenCL/opencl.h>
 
+#ifndef SEL
+#define SEL int
+#endif
+
 typedef struct {
   struct RBasic basic;
   cl_mem buffer;
