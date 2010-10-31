@@ -1,15 +1,18 @@
-= About
+= What is mopencl?
+
 This is a OpenCL library for MacRuby.
 This library is made based on the following. 
 - http://github.com/rubenfonseca/macruby/blob/master/opencl.c
 
-= Install 
-It is necessary to install MacRuby first. 
-Please download MacRuby from the following sites, and install it. 
-- http://www.macruby.org/
+== Requirements
 
-Next, Please execute the following commands and the library is installed.
-  $ git clone git://github.com/Watson1978/opencl.git
-  $ cd opencl
-  $ rake pkg
-  $ macgem install opencl-0.0.1.gem
+- MacRuby 0.7
+
+== Installing
+
+ $ sudo macgem install mopencl
+
+== Using
+
+You can see in example.
+- http://github.com/Watson1978/mopencl/tree/master/example/

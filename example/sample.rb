@@ -2,9 +2,9 @@
 # -*- coding: utf-8 -*-
 # http://blog.0x82.com/2010/1/23/opencl-in-macruby-hack-not-very-useful
 require "rubygems"
-require "OpenCLBase"
+require "mopencl"
 
-OpenCLBase.devices.each do |device|
+OpenCLCore.devices.each do |device|
   info = device.info
   puts "Trying on #{info[:name]} #{info[:vendor]} #{info[:version]} [#{info[:type]}]"
  

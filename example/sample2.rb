@@ -1,7 +1,7 @@
 #!/usr/local/bin/macruby
 # -*- coding: utf-8 -*-
 require "rubygems"
-require "opencl"
+require "mopencl"
 
 opencl = OpenCL.new
 # When true is set in use_cpu, the program is executed on CPU.

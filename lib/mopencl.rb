@@ -1,39 +1,39 @@
 # -*- coding: utf-8 -*-
-require "OpenCLBase"
+require "mopencl/mopencl"
 
 class OpenCL
   # When true is set in use_cpu, the program is executed on CPU.
   attr_accessor :use_cpu
 
-  def initialize()
+  def initialize
     self.use_cpu = false
   end
 
-  def info()
+  def info
     info = []
-    OpenCLBase.devices.each do |device|
+    OpenCLCore.devices.each do |device|
       info << device.info
     end
     return info
   end
 
-  def able_gpu?()
-    @gpu ||= OpenCLBase.get_gpu
+  def able_gpu?
+    @gpu ||= OpenCLCore.get_gpu
     return true if(@gpu != nil)
     return false
   end
 
-  def get_device()
-    @gpu ||= OpenCLBase.get_gpu
+  def get_device
+    @gpu ||= OpenCLCore.get_gpu
     return @gpu if(!self.use_cpu and self.able_gpu?())
 
-    @cpu ||= OpenCLBase.get_cpu
+    @cpu ||= OpenCLCore.get_cpu
     return @cpu
   end
 
   def program(source)
     @source = source
-    @device = self.get_device()
+    @device = get_device()
 
     @context = @device.create_context()
     @queue   = @context.create_command_queue()
@@ -86,7 +86,7 @@ class OutputBuffer
     return self
   end
 
-  def result()
+  def result
     return @output.read(@queue)
   end
 end

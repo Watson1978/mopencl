@@ -556,9 +556,9 @@ rb_opencl_get_device_cpu(VALUE klass, SEL sel)
 }
 
 void
-Init_OpenCLBase(void)
+Init_mopencl(void)
 {
-  mOpenCL = rb_define_module("OpenCLBase");
+  mOpenCL = rb_define_module("OpenCLCore");
   rb_objc_define_module_function(mOpenCL, "devices", rb_opencl_devices, 0);
   rb_objc_define_module_function(mOpenCL, "get_gpu", rb_opencl_get_device_gpu, 0);
   rb_objc_define_module_function(mOpenCL, "get_cpu", rb_opencl_get_device_cpu, 0);

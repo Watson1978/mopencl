@@ -1,4 +1,4 @@
 require "mkmf"
 
 $LDFLAGS += " -framework OpenCL"
-create_makefile("OpenCLBase")
+create_makefile("mopencl/mopencl")
